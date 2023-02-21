@@ -1,3 +1,6 @@
+### Implementation of https://arxiv.org/pdf/1905.05583.pdf, section 5.3.4
+
+
 def layerwise_lr(model, lr):
   
   # get a list of the model's layers
@@ -7,15 +10,15 @@ def layerwise_lr(model, lr):
       layers.append(name)
 
 
-  # reverse Since we want to decrease the lr (The list goes from the bottom layers to the top). 
+  # reverse(): The list goes from the bottom layers to the top. 
   
   layers.reverse()
 
   lr_fn = lr
-  ξ = 0.95 # hyperparameter by which to decrease (lr * epsilon = 5%)
+  ξ = 0.95         # decay factor by which to decrease (lr * epsilon = 5%)
 
   parameters = []
-  prev_group_name = layers[2].split('.')[2] # Spare the first layer from decreasing (see readme for an example)
+  prev_group_name = layers[2].split('.')[2]      # Spare the first layer from decreasing
 
   # store params & learning rates
   for idx, name in enumerate(layers):
@@ -24,7 +27,7 @@ def layerwise_lr(model, lr):
       cur_group_name = name.split('.')[2]
 
       # update learning rate
-      if cur_group_name != prev_group_name: # Spare the first layer from decreasing (see readme for an example)
+      if cur_group_name != prev_group_name:      # Spare the first layer from decreasing
           lr_fn *= ξ
       prev_group_name = cur_group_name
 
