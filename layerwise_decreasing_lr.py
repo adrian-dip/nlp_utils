@@ -15,7 +15,7 @@ def layerwise_lr(model, lr):
   layers.reverse()
 
   lr_fn = lr
-  ξ = 0.95         # decay factor by which to decrease (lr * epsilon = 5%)
+  ξ = 0.95         # decay factor by which to decrease (lr * epsilon = 5% per layer)
 
   parameters = []
   prev_group_name = layers[2].split('.')[2]      # Spare the first layer from decreasing
