@@ -139,9 +139,6 @@ def validate(epoch, tokenizer, model, device, loader):
 
 def engine(df, generation_df):
     tokenizer = T5Tokenizer.from_pretrained(model_name, model_max_length=config.IN_LEN)
-    torch.manual_seed(config.SEED) 
-    np.random.seed(config.SEED) 
-    torch.backends.cudnn.deterministic = True
 
     training_set = CustomDataset(df, tokenizer, config.IN_LEN, config.OUT_LEN)
     val_set = CustomDataset(generation_df, tokenizer, config.IN_LEN, config.OUT_LEN)
@@ -179,6 +176,7 @@ def engine(df, generation_df):
 
 
 if __name__ == '__main__':
+    seed_everything()
     engine(df, gen_df)
 
 
